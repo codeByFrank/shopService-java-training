@@ -1,24 +1,41 @@
 package de.neuefische;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OrderListRepo implements OrderRepo {
-    private final Map<Integer, Order> allOrders = new HashMap<>();
+    private final List<Order> allOrders = new ArrayList<>();
 
+    @Override
     public void addOrder(Order order) {
-        allOrders.put(order.id(), order);
+        allOrders.add(order);
     }
 
+    @Override
     public void removeOrderById(int id) {
-        allOrders.remove(id);
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).id() == id) {
+                allOrders.remove(i);
+                return;
+            }
+        }
     }
 
+    @Override
     public Order getOrderById(int id) {
-        return allOrders.getOrDefault(id, null);
+        for (Order order : allOrders) {
+            if (order.id() == id) {
+                return order;
+            }
+        }
+
+        return null;
     }
 
-    public Map<Integer, Order> getAllOrders() {
+    @Override
+    public List<Order> getAllOrders() {
         return allOrders;
     }
 }

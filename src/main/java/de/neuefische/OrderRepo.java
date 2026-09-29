@@ -1,5 +1,6 @@
 package de.neuefische;
 
+import java.util.List;
 import java.util.Map;
 
 public interface OrderRepo {
@@ -10,5 +11,5 @@ public interface OrderRepo {
 
     public Order getOrderById(int id);
 
-    public Map<Integer, Order> getAllOrders();
+    public List<Order> getAllOrders();
 }

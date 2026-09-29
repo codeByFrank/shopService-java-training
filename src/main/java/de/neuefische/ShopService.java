@@ -2,22 +2,21 @@ package de.neuefische;
 
 public class ShopService {
     private final ProductRepo productRepo;
-    private final OrderListRepo orderListRepo;
+    private final OrderRepo orderRepo;
 
-    public ShopService(ProductRepo productRepo, OrderListRepo orderListRepo) {
+    public ShopService(ProductRepo productRepo, OrderRepo orderRepo) {
         this.productRepo = productRepo;
-        this.orderListRepo = orderListRepo;
+        this.orderRepo = orderRepo;
     }
 
-    public placeOrder(int orderId, int productId, int quantity) {
+    public void placeOrder(int orderId, int productId, int quantity) {
         Product product = productRepo.getProductById(productId);
 
         if (product == null) {
-            System.out.println("Product not available!");
             return;
         }
 
         Order order = new Order(orderId, product, quantity);
-        orderListRepo.addOrder(order);
+        orderRepo.addOrder(order);
     }
 }

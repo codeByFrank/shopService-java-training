@@ -1,26 +1,38 @@
 package de.neuefische;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 public class ProductRepo {
 
-    private final Map<Integer, Product> allProducts = new HashMap<>();
+    private final List<Product> allProducts = new ArrayList<>();
 
     public void addProduct(Product product) {
-        allProducts.put(product.id(), product);
+        allProducts.add(product);
     }
 
     public void removeProductById(int id) {
-        allProducts.remove(id);
+        for (int i = 0; i < allProducts.size(); i++) {
+            if (allProducts.get(i).id() == id) {
+                allProducts.remove(i);
+                return;
+            }
+        }
     }
 
     public Product getProductById(int id) {
-        return allProducts.getOrDefault(id, null);
+        for (Product product : allProducts) {
+            if (product.id() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
-    public Map<Integer, Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         return allProducts;
     }
 }
