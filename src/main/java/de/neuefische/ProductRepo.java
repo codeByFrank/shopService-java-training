@@ -9,14 +9,10 @@ public class ProductRepo {
 
     private List<Product> allProducts = new ArrayList<>();
 
-    public static void main(String[] args) {}
-
     public void addProduct(Product product) {
-
     }
 
     public boolean removeProductById(int id) {
-
     }
 
     public Product getProductById(int id) {
