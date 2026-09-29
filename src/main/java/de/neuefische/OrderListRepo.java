@@ -1,23 +1,24 @@
 package de.neuefische;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderListRepo {
-    private List<Order> allOrders = new ArrayList<>();
+    private final Map<Integer, Order> allOrders = new HashMap<>();
 
-    public void addOrder(Order order) {
+    public void addProduct(Order order) {
+        allOrders.put(order.id(), order);
     }
 
-    public boolean removeOrderById(int id) {
-
+    public void removeProductById(int id) {
+        allOrders.remove(id);
     }
 
     public Order getOrderById(int id) {
-
+        return allOrders.getOrDefault(id, null);
     }
 
-    public List<Order> getAllOrders() {
+    public Map<Integer, Order> getAllOrders() {
         return allOrders;
     }
 }
