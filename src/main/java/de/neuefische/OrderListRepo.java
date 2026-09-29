@@ -3,14 +3,14 @@ package de.neuefische;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OrderListRepo {
+public class OrderListRepo implements OrderRepo {
     private final Map<Integer, Order> allOrders = new HashMap<>();
 
-    public void addProduct(Order order) {
+    public void addOrder(Order order) {
         allOrders.put(order.id(), order);
     }
 
-    public void removeProductById(int id) {
+    public void removeOrderById(int id) {
         allOrders.remove(id);
     }
 
