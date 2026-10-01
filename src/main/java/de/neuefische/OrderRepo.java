@@ -12,4 +12,6 @@ public interface OrderRepo {
     public Order getOrderById(int id);
 
     public List<Order> getAllOrders();
+
+    public void updateOrder(Order order);
 }

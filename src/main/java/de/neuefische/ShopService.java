@@ -19,4 +19,15 @@ public class ShopService {
         Order order = new Order(orderId, product, quantity);
         orderRepo.addOrder(order);
     }
+
+    public void updateOrderQuantity(int orderId, int newQuantity) {
+        Order order = orderRepo.getOrderById(orderId);
+
+        if (order == null) {
+            return;
+        }
+
+        Order updatedOrder = new Order(order.id(), order.product(), newQuantity);
+        orderRepo.updateOrder(updatedOrder);
+    }
 }

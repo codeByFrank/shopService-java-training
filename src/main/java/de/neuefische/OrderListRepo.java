@@ -38,4 +38,14 @@ public class OrderListRepo implements OrderRepo {
     public List<Order> getAllOrders() {
         return allOrders;
     }
+
+    @Override
+    public void updateOrder(Order updatedOrder) {
+        for (int i = 0; i < allOrders.size(); i++) {
+            if (allOrders.get(i).id() == updatedOrder.id()) {
+                allOrders.set(i, updatedOrder);
+                return;
+            }
+        }
+    }
 }

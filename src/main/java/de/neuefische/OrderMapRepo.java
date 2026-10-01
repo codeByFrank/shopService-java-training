@@ -26,4 +26,10 @@ public class OrderMapRepo implements OrderRepo  {
     public List<Order> getAllOrders() {
         return new ArrayList<>(orders.values());
     }
+
+    @Override
+    public void updateOrder(Order order) {
+        orders.put(order.id(), order);
+    }
+    
 }
