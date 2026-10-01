@@ -17,6 +17,7 @@ public class Main {
         for (boolean running = true; running; ) {
             System.out.println("1 : show products");
             System.out.println("2 : add product");
+            System.out.println("3 : remove product");
             System.out.println("q : close");
             System.out.print("choice: ");
 
@@ -26,8 +27,8 @@ public class Main {
                 for (Product product : productRepo.getAllProducts()) {
                     System.out.println(product);
                 }
-            } else if (choice.equals("2")) {
-
+            }
+            else if (choice.equals("2")) {
                 System.out.print("Product id: ");
                 int id = Integer.parseInt(scanner.nextLine());
 
@@ -39,6 +40,13 @@ public class Main {
 
                 productRepo.addProduct(new Product(id, name, price));
                 System.out.println("Product added");
+            }
+            else if (choice.equals("3")) {
+                System.out.print("Product id: ");
+                int id = Integer.parseInt(scanner.nextLine());
+
+                productRepo.removeProductById(id);
+                System.out.println("Product removed");
             }
             else if (choice.equals("q")) {
                 running = false;
