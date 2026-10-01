@@ -5,6 +5,12 @@ import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+
+    private static final String GREEN = "\u001B[32m";
+    private static final String RED = "\u001B[31m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String RESET = "\u001B[0m";
+
     static void main(String[] args) {
         ProductRepo productRepo = new ProductRepo();
         OrderRepo orderRepo = new OrderMapRepo();
@@ -41,14 +47,14 @@ public class Main {
                 double price = Double.parseDouble(scanner.nextLine());
 
                 productRepo.addProduct(new Product(id, name, price));
-                System.out.println("Product added");
+                System.out.println(GREEN + "Product added." + RESET);
             }
             else if (choice.equals("3")) {
                 System.out.print("Product id: ");
                 int id = Integer.parseInt(scanner.nextLine());
 
                 productRepo.removeProductById(id);
-                System.out.println("Product removed");
+                System.out.println(RED + "Product removed." + RESET);
             }
             else if (choice.equals("4")) {
                 System.out.print("Order id: ");
@@ -62,7 +68,7 @@ public class Main {
 
                 shopService.placeOrder(orderId, productId, quantity);
 
-                System.out.println("Order requested");
+                System.out.println(YELLOW + "Order request processed." + RESET);
             }
             else if (choice.equals("5")) {
                 for (Order order : orderRepo.getAllOrders()) {
