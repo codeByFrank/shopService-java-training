@@ -18,7 +18,9 @@ public class Main {
             System.out.println("1 : show products");
             System.out.println("2 : add product");
             System.out.println("3 : remove product");
-            System.out.println("q : close");
+            System.out.println("4 : place order");
+            System.out.println("5 : show orders");
+            System.out.println("q : close\n");
             System.out.print("choice: ");
 
             String choice = scanner.nextLine();
@@ -47,6 +49,25 @@ public class Main {
 
                 productRepo.removeProductById(id);
                 System.out.println("Product removed");
+            }
+            else if (choice.equals("4")) {
+                System.out.print("Order id: ");
+                int orderId = Integer.parseInt(scanner.nextLine());
+
+                System.out.print("Product id: ");
+                int productId = Integer.parseInt(scanner.nextLine());
+
+                System.out.print("Quantity: ");
+                int quantity = Integer.parseInt(scanner.nextLine());
+
+                shopService.placeOrder(orderId, productId, quantity);
+
+                System.out.println("Order requested");
+            }
+            else if (choice.equals("5")) {
+                for (Order order : orderRepo.getAllOrders()) {
+                    System.out.println(order);
+                }
             }
             else if (choice.equals("q")) {
                 running = false;
