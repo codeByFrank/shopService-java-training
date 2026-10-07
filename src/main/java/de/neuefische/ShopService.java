@@ -1,5 +1,7 @@
 package de.neuefische;
 
+import java.util.List;
+
 public class ShopService {
     private final ProductRepo productRepo;
     private final OrderRepo orderRepo;
@@ -29,5 +31,12 @@ public class ShopService {
 
         Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status());
         orderRepo.updateOrder(updatedOrder);
+    }
+
+    public List<Order> getOrdersByStatus(OrderStatus status) {
+        return orderRepo.getAllOrders()
+                .stream()
+                .filter(order -> order.status() == status)
+                .toList();
     }
 }
