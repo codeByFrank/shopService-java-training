@@ -17,7 +17,7 @@ class ShopServiceTest {
 
         shopService.placeOrder(10, 1, 2);
 
-        assertEquals(new Order(10, product, 2), orderRepo.getOrderById(10));
+        assertEquals(new Order(10, product, 2, OrderStatus.PROCESSING), orderRepo.getOrderById(10));
     }
 
     @Test
@@ -32,6 +32,6 @@ class ShopServiceTest {
 
         shopService.updateOrderQuantity(10, 5);
 
-        assertEquals(new Order(10, product, 5), orderRepo.getOrderById(10));
+        assertEquals(new Order(10, product, 5, OrderStatus.PROCESSING), orderRepo.getOrderById(10));
     }
 }
