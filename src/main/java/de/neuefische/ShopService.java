@@ -16,7 +16,7 @@ public class ShopService {
             return;
         }
 
-        Order order = new Order(orderId, product, quantity);
+        Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING);
         orderRepo.addOrder(order);
     }
 
@@ -27,7 +27,7 @@ public class ShopService {
             return;
         }
 
-        Order updatedOrder = new Order(order.id(), order.product(), newQuantity);
+        Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status());
         orderRepo.updateOrder(updatedOrder);
     }
 }
