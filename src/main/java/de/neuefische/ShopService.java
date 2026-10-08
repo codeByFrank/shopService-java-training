@@ -2,15 +2,12 @@ package de.neuefische;
 import java.util.Optional;
 import java.util.List;
 import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class ShopService {
     private final ProductRepo productRepo;
     private final OrderRepo orderRepo;
-
-    public ShopService(ProductRepo productRepo, OrderRepo orderRepo) {
-        this.productRepo = productRepo;
-        this.orderRepo = orderRepo;
-    }
 
     public void placeOrder(int orderId, int productId, int quantity) throws Exception {
         Optional<Product> productOptional = productRepo.getProductById(productId);
