@@ -1,6 +1,7 @@
 package de.neuefische;
 import java.util.Optional;
 import java.util.List;
+import java.time.Instant;
 
 public class ShopService {
     private final ProductRepo productRepo;
@@ -22,7 +23,7 @@ public class ShopService {
 
         Product product = productOptional.get();
 
-        Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING);
+        Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING, Instant.now());
         orderRepo.addOrder(order);
     }
 
@@ -33,7 +34,7 @@ public class ShopService {
             return;
         }
 
-        Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status());
+        Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status(), order.timestamp());
         orderRepo.updateOrder(updatedOrder);
     }
 

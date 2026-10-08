@@ -1,7 +1,7 @@
 package de.neuefische;
 
 import org.junit.jupiter.api.Test;
-
+import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,9 +17,19 @@ class ShopServiceTest {
         Product product = new Product(1, "Lamp", 2.99);
         productRepo.addProduct(product);
 
+        Instant beforeOrder = Instant.now();
         shopService.placeOrder(10, 1, 2);
+        Instant afterOrder = Instant.now();
 
-        assertEquals(new Order(10, product, 2, OrderStatus.PROCESSING), orderRepo.getOrderById(10));
+        Order order = orderRepo.getOrderById(10);
+
+        assertEquals(10, order.id());
+        assertEquals(product, order.product());
+        assertEquals(2, order.quantity());
+        assertEquals(OrderStatus.PROCESSING, order.status());
+        assertNotNull(order.timestamp());
+        assertFalse(order.timestamp().isBefore(beforeOrder));
+        assertFalse(order.timestamp().isAfter(afterOrder));
     }
 
     @Test
@@ -32,9 +42,13 @@ class ShopServiceTest {
         productRepo.addProduct(product);
         shopService.placeOrder(10, 1, 2);
 
+        Order originalOrder = orderRepo.getOrderById(10);
         shopService.updateOrderQuantity(10, 5);
 
-        assertEquals(new Order(10, product, 5, OrderStatus.PROCESSING), orderRepo.getOrderById(10));
+        assertEquals(
+                new Order(10, product, 5, OrderStatus.PROCESSING, originalOrder.timestamp()),
+                orderRepo.getOrderById(10)
+        );
     }
 
     @Test
@@ -45,9 +59,9 @@ class ShopServiceTest {
 
         Product product = new Product(1, "Lamp", 2.99);
         Order processingOrder =
-                new Order(10, product, 2, OrderStatus.PROCESSING);
+                new Order(10, product, 2, OrderStatus.PROCESSING, Instant.now());
         Order completedOrder =
-                new Order(11, product, 1, OrderStatus.COMPLETED);
+                new Order(11, product, 1, OrderStatus.COMPLETED, Instant.now());
 
         orderRepo.addOrder(processingOrder);
         orderRepo.addOrder(completedOrder);
@@ -74,13 +88,13 @@ class ShopServiceTest {
         ShopService shopService = new ShopService(productRepo, orderRepo);
 
         Product product = new Product(1, "Lamp", 2.99);
-        Order order = new Order(10, product, 2, OrderStatus.PROCESSING);
+        Order order = new Order(10, product, 2, OrderStatus.PROCESSING, Instant.now());
         orderRepo.addOrder(order);
 
         shopService.updateOrder(10, OrderStatus.IN_DELIVERY);
 
         assertEquals(
-                new Order(10, product, 2, OrderStatus.IN_DELIVERY),
+                new Order(10, product, 2, OrderStatus.IN_DELIVERY, order.timestamp()),
                 orderRepo.getOrderById(10)
         );
     }
