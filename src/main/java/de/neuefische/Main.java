@@ -19,6 +19,16 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         productRepo.addProduct(new Product(1, "Lamp", 2.99));
+        productRepo.addProduct(new Product(2, "Chair", 19.99));
+        productRepo.addProduct(new Product(3, "Book", 7.99));
+
+        try {
+            shopService.placeOrder(1, 1, 2);
+            shopService.placeOrder(2, 2, 1);
+            shopService.placeOrder(3, 3, 4);
+        } catch (Exception e) {
+            System.out.println(RED + e.getMessage() + RESET);
+        }
 
         for (boolean running = true; running; ) {
             System.out.println("1 : show products");
