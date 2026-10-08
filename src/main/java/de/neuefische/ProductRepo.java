@@ -1,10 +1,7 @@
 package de.neuefische;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import java.util.Optional;
 
 public class ProductRepo {
 
@@ -23,13 +20,13 @@ public class ProductRepo {
         }
     }
 
-    public Product getProductById(int id) {
+    public Optional<Product> getProductById(int id) {
         for (Product product : allProducts) {
             if (product.id() == id) {
-                return product;
+                return Optional.of(product);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public List<Product> getAllProducts() {

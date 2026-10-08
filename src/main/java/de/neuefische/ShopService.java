@@ -1,5 +1,5 @@
 package de.neuefische;
-
+import java.util.Optional;
 import java.util.List;
 
 public class ShopService {
@@ -12,11 +12,13 @@ public class ShopService {
     }
 
     public void placeOrder(int orderId, int productId, int quantity) {
-        Product product = productRepo.getProductById(productId);
+        Optional<Product> productOptional = productRepo.getProductById(productId);
 
-        if (product == null) {
+        if (productOptional.isEmpty()) {
             return;
         }
+
+        Product product = productOptional.get();
 
         Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING);
         orderRepo.addOrder(order);
