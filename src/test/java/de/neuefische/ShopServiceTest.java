@@ -66,4 +66,22 @@ class ShopServiceTest {
 
         assertThrows(Exception.class, () -> shopService.placeOrder(10, 999, 2));
     }
+
+    @Test
+    void updateOrder_shouldChangeStatus() {
+        ProductRepo productRepo = new ProductRepo();
+        OrderRepo orderRepo = new OrderMapRepo();
+        ShopService shopService = new ShopService(productRepo, orderRepo);
+
+        Product product = new Product(1, "Lamp", 2.99);
+        Order order = new Order(10, product, 2, OrderStatus.PROCESSING);
+        orderRepo.addOrder(order);
+
+        shopService.updateOrder(10, OrderStatus.IN_DELIVERY);
+
+        assertEquals(
+                new Order(10, product, 2, OrderStatus.IN_DELIVERY),
+                orderRepo.getOrderById(10)
+        );
+    }
 }

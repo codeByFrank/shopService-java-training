@@ -43,4 +43,15 @@ public class ShopService {
                 .filter(order -> order.status() == status)
                 .toList();
     }
+
+    public void updateOrder(int orderId, OrderStatus newStatus) {
+        Order order = orderRepo.getOrderById(orderId);
+
+        if (order == null) {
+            return;
+        }
+
+        Order updatedOrder = order.withStatus(newStatus);
+        orderRepo.updateOrder(updatedOrder);
+    }
 }
