@@ -1,6 +1,9 @@
 package de.neuefische;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepoTest {
@@ -12,7 +15,7 @@ class ProductRepoTest {
 
         productRepo.addProduct(product);
 
-        assertEquals(product, productRepo.getProductById(1));
+        assertEquals(Optional.of(product), productRepo.getProductById(1));
     }
 
     @Test
@@ -22,7 +25,7 @@ class ProductRepoTest {
 
         productRepo.removeProductById(1);
 
-        assertNull(productRepo.getProductById(1));
+        assertEquals(Optional.empty(), productRepo.getProductById(1));
     }
 
     @Test
@@ -31,9 +34,14 @@ class ProductRepoTest {
         Product product = new Product(1, "Lamp", 2.99);
         productRepo.addProduct(product);
 
-        Product result = productRepo.getProductById(1);
+        assertEquals(Optional.of(product), productRepo.getProductById(1));
+    }
 
-        assertEquals(product, result);
+    @Test
+    void getProductById_shouldReturnEmpty_whenProductDoesNotExist() {
+        ProductRepo productRepo = new ProductRepo();
+
+        assertEquals(Optional.empty(), productRepo.getProductById(999));
     }
 
     @Test

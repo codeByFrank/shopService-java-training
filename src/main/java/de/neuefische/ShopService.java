@@ -1,35 +1,37 @@
 package de.neuefische;
-
+import java.util.Optional;
 import java.util.List;
+import java.time.Instant;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class ShopService {
     private final ProductRepo productRepo;
     private final OrderRepo orderRepo;
 
-    public ShopService(ProductRepo productRepo, OrderRepo orderRepo) {
-        this.productRepo = productRepo;
-        this.orderRepo = orderRepo;
-    }
+    public void placeOrder(int orderId, int productId, int quantity) throws Exception {
+        Optional<Product> productOptional = productRepo.getProductById(productId);
 
-    public void placeOrder(int orderId, int productId, int quantity) {
-        Product product = productRepo.getProductById(productId);
-
-        if (product == null) {
-            return;
+        if (productOptional.isEmpty()) {
+            throw new Exception(
+                    "Product with id " + productId + " does not exist"
+            );
         }
 
-        Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING);
+        Product product = productOptional.get();
+
+        Order order = new Order(orderId, product, quantity, OrderStatus.PROCESSING, Instant.now());
         orderRepo.addOrder(order);
     }
 
-    public void updateOrderQuantity(int orderId, int newQuantity) {
+    public void updateOrderQuantity(int orderId, int newQuantity)  {
         Order order = orderRepo.getOrderById(orderId);
 
         if (order == null) {
             return;
         }
 
-        Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status());
+        Order updatedOrder = new Order(order.id(), order.product(), newQuantity, order.status(), order.timestamp());
         orderRepo.updateOrder(updatedOrder);
     }
 
@@ -38,5 +40,16 @@ public class ShopService {
                 .stream()
                 .filter(order -> order.status() == status)
                 .toList();
+    }
+
+    public void updateOrder(int orderId, OrderStatus newStatus) {
+        Order order = orderRepo.getOrderById(orderId);
+
+        if (order == null) {
+            return;
+        }
+
+        Order updatedOrder = order.withStatus(newStatus);
+        orderRepo.updateOrder(updatedOrder);
     }
 }

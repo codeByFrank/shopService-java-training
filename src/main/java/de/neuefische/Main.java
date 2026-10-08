@@ -19,6 +19,16 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         productRepo.addProduct(new Product(1, "Lamp", 2.99));
+        productRepo.addProduct(new Product(2, "Chair", 19.99));
+        productRepo.addProduct(new Product(3, "Book", 7.99));
+
+        try {
+            shopService.placeOrder(1, 1, 2);
+            shopService.placeOrder(2, 2, 1);
+            shopService.placeOrder(3, 3, 4);
+        } catch (Exception e) {
+            System.out.println(RED + e.getMessage() + RESET);
+        }
 
         for (boolean running = true; running; ) {
             System.out.println("1 : show products");
@@ -66,9 +76,12 @@ public class Main {
                 System.out.print("Quantity: ");
                 int quantity = Integer.parseInt(scanner.nextLine());
 
-                shopService.placeOrder(orderId, productId, quantity);
-
-                System.out.println(YELLOW + "Order request processed." + RESET);
+                try {
+                    shopService.placeOrder(orderId, productId, quantity);
+                    System.out.println(GREEN + "Order was placed." + RESET);
+                } catch (Exception e) {
+                    System.out.println(RED + e.getMessage() + RESET);
+                }
             }
             else if (choice.equals("5")) {
                 for (Order order : orderRepo.getAllOrders()) {
