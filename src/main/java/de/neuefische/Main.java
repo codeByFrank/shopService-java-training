@@ -66,9 +66,12 @@ public class Main {
                 System.out.print("Quantity: ");
                 int quantity = Integer.parseInt(scanner.nextLine());
 
-                shopService.placeOrder(orderId, productId, quantity);
-
-                System.out.println(YELLOW + "Order request processed." + RESET);
+                try {
+                    shopService.placeOrder(orderId, productId, quantity);
+                    System.out.println(GREEN + "Order was placed." + RESET);
+                } catch (Exception e) {
+                    System.out.println(RED + e.getMessage() + RESET);
+                }
             }
             else if (choice.equals("5")) {
                 for (Order order : orderRepo.getAllOrders()) {

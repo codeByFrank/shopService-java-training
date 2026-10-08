@@ -11,11 +11,13 @@ public class ShopService {
         this.orderRepo = orderRepo;
     }
 
-    public void placeOrder(int orderId, int productId, int quantity) {
+    public void placeOrder(int orderId, int productId, int quantity) throws Exception {
         Optional<Product> productOptional = productRepo.getProductById(productId);
 
         if (productOptional.isEmpty()) {
-            return;
+            throw new Exception(
+                    "Product with id " + productId + " does not exist"
+            );
         }
 
         Product product = productOptional.get();
@@ -24,7 +26,7 @@ public class ShopService {
         orderRepo.addOrder(order);
     }
 
-    public void updateOrderQuantity(int orderId, int newQuantity) {
+    public void updateOrderQuantity(int orderId, int newQuantity)  {
         Order order = orderRepo.getOrderById(orderId);
 
         if (order == null) {

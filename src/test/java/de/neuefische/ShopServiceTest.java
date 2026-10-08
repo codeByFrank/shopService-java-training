@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopServiceTest {
 
     @Test
-    void placeOrder() {
+    void placeOrder() throws Exception {
         ProductRepo productRepo = new ProductRepo();
         OrderRepo orderRepo = new OrderMapRepo();
         ShopService shopService = new ShopService(productRepo, orderRepo);
@@ -23,7 +23,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void updateOrderQuantity() {
+    void updateOrderQuantity() throws Exception {
         ProductRepo productRepo = new ProductRepo();
         OrderRepo orderRepo = new OrderMapRepo();
         ShopService shopService = new ShopService(productRepo, orderRepo);
@@ -56,5 +56,14 @@ class ShopServiceTest {
                 List.of(processingOrder),
                 shopService.getOrdersByStatus(OrderStatus.PROCESSING)
         );
+    }
+
+    @Test
+    void placeOrder_shouldThrowException_whenProductDoesNotExist() {
+        ProductRepo productRepo = new ProductRepo();
+        OrderRepo orderRepo = new OrderMapRepo();
+        ShopService shopService = new ShopService(productRepo, orderRepo);
+
+        assertThrows(Exception.class, () -> shopService.placeOrder(10, 999, 2));
     }
 }
